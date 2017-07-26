@@ -1,0 +1,13 @@
+{
+  "name": "koa_wechat",
+  "version": "0.0.1",
+  "description": "基于 koa 的 微信 api ",
+  "main": "index.js",
+  "author": "mrsix <582497915@qq.com>",
+  "license": "MIT",
+  "dependencies": {
+    "co-wechat-api": "^3.1.0",
+    "koa": "^2.3.0",
+    "koa-router": "^7.2.1"
+  }
+}
