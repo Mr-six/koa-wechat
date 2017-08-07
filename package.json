@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "mrsix <582497915@qq.com>",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.js"
   },
   "license": "MIT",
   "dependencies": {
