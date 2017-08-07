@@ -7,7 +7,7 @@ FROM node:latest
 RUN mkdir -p /home/wechat/api
 WORKDIR /home/wechat/api
 
-COPY . /home/www/express-app
+COPY . /home/wechat/api
 RUN npm install
 
 EXPOSE 3000
