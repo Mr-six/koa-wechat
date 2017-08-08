@@ -45,4 +45,20 @@ wechat.get('/getJsConfig', async (ctx) => {
   }
 })
 
+/**
+ * 设置底部菜单
+ * @param  {Object} menu 菜单配置
+ * @return {Object} result 返回执行结果 {"errcode":0,"errmsg":"ok"}
+ */
+wechat.post('/createMenu', async (ctx) => {
+  let param = ctx.body
+  if (!param.menu) {
+    ctx.body = err.err_param()  // 参数错误
+  } else {
+    let menu = param.menu
+    let result = await api.createMenu(menu)
+    ctx.body = result
+  }
+})
+
  module.exports = wechat
