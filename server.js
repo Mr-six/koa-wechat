@@ -8,6 +8,10 @@ const config = require('./config')
 
 const router = require('./router')
 
+const serve = require('koa-static')
+
+app.use(serve('./src'))
+
 // 使用ctx.body解析中间件
 app.use(bodyParser({
   extendTypes: {

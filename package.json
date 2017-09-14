@@ -5,13 +5,19 @@
   "main": "index.js",
   "author": "mrsix <582497915@qq.com>",
   "scripts": {
-    "start": "node server.js"
+    "start": "NODE_ENV=develop nodemon server.js",
+    "prd": "node server.js"
   },
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.16.2",
     "co-wechat-api": "^3.1.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.2.1"
+    "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
+    "nodemon": "^1.12.0",
+    "pingpp": "^2.0.13",
+    "superagent": "^3.6.0"
   }
 }
