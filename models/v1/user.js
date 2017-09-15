@@ -5,7 +5,6 @@
 // 4: 编辑
 // 99: 管理员
 const Base = require('../base')
-const $    = require('../../utils')
 
 const User = new Base('User', {
   openid:       { type: String},

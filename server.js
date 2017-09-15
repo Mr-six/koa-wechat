@@ -10,6 +10,7 @@ const router = require('./router')
 
 const serve = require('koa-static')
 
+
 app.use(serve('./src'))
 
 // 使用ctx.body解析中间件
@@ -22,7 +23,11 @@ app.use(bodyParser({
   }
 }))
 
+
+
 app.use(router.routes())
+
+require('./models').connect()  // 数据库链接
 
 app.listen(config.port, () => {
   console.log('server start at http://localhost:' + config.port)

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const config   = require('../config')
-const $        = require('../utils')
+const $        = require('../src/utils')
 const v1       = require('./v1')
 
 const dbname = config.isProd ? config.db : config.dbtest
@@ -14,9 +14,8 @@ module.exports =  {
       server: { poolSize: 20 }
     }, (err) => {
       console.log(dbname)
-      $.info(dbname)
       if (err) {
-        $.error(`connect to ${dbname} error: ${err.message}`)
+        console.log(`connect to ${dbname} error: ${err.message}`)
         process.exit(1)
       }
       return mongoose.connection

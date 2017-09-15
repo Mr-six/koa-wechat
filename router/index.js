@@ -8,7 +8,7 @@ const user = require('./user')
 const blog = require('./blog')
 const qf = require('./qf')
 const ping = require('./pingpp')
-const wepay = require('/wepay')
+const wepay = require('./wepay')
 
 const router = new Router()
 

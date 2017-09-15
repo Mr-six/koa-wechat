@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
-const $        = require('../utils')
+const $        = require('../src/utils')
 
-const rules  = [{ path: 'user', select: '-token -openid -password'}]
+// const rules  = [{ path: 'user', select: '-token -openid -password'}]
+const rules = [{}]
 
 
 // baseModel
