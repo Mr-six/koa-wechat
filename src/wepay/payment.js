@@ -33,17 +33,22 @@ class WeixinPayment {
     const { appid, mch_id } = this.$opts
    
     Object.assign(params, {
-      
+      appid,
+      mch_id,
+      nonce_str: $.createNonceStr(),
     })
 
-    console.dir(params)
+    // console.dir(params)
+    
     params.sign = $.signWe(params)
 
-    console.log('签名： ' + params.sign)
+    // console.log('签名： ' + params.sign)
+    
 
     let body = $.j2x(params, { header: false })
     body = '<xml>' + body + '<\/xml>'
-    console.dir(body)
+    // console.dir(body)
+    
     return this.$req
       .post(url, body)
       .then(ret => $.x2j(ret.data))

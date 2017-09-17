@@ -27,7 +27,7 @@ app.use(bodyParser({
 
 app.use(router.routes())
 
-// require('./models').connect()  // 数据库链接
+require('./models').connect()  // 数据库链接
 
 app.listen(config.port, () => {
   console.log('server start at http://localhost:' + config.port)

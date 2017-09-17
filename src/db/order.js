@@ -49,7 +49,31 @@ orderAPI.methods.create = async function (ctx, next) {
 //   else $.result(ctx, documents)
 // }
 
-orderAPI.methods.test = async function (data) {
-  return orderModel.findOne()
+orderAPI.methods.payCreate = async function (data) {
+  try {
+    let {_doc, errors} = await orderModel.create(data)
+    return _doc
+  } catch (e) {
+    console.log('出错：'　+ e)
+  }
 }
+
+orderAPI.methods.payfind = async function (query) {
+  try {
+    let res = await orderModel.payfind(query)
+    
+    if (res.length > 0) {
+      let datas = []
+      res.forEach(e => {
+        if　(!e.errors) datas.push(e._doc)
+      })
+      // console.dir(datas)
+      return datas
+    }  
+  } catch (e) {
+    console.log('出错：'　+ e)
+  }
+}
+
+
 module.exports = orderAPI.methods

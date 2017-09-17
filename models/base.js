@@ -52,7 +52,20 @@ module.exports =  class Base {
     try {
       return await this.model.find(query)
         .limit(_count).skip(_count * _start)
-        .populate(options && options.rules || rules).sort({ _index: -1 })
+        // .populate(options && options.rules || rules)
+        .sort({ _index: -1 })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async payfind (query, start) {
+    const _count = 20
+    const _start = start || 0
+    try {
+      return await this.model.find(query)
+        .limit(_count).skip(_count * _start)
+        .sort({ _index: -1 })
     } catch (e) {
       console.error(e)
     }
@@ -61,7 +74,7 @@ module.exports =  class Base {
   async find(query, options) {
     try {
       return await this.model.findOne(query)
-        .populate(options && options.rules || rules)
+        // .populate(options && options.rules || rules)
     } catch (e) {
       console.error(e)
     }
@@ -118,6 +131,10 @@ function addMethods (_this) {
 
   methods.create = async function (query) {
     return await _this.create(query)
+  }
+
+  methods.payfind = async function (query) {
+    return await _this.payfind(query)
   }
 
   methods.update = async function (query, info) {

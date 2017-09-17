@@ -8,7 +8,8 @@ const order = new Base('order', {
   total_fee:          String,
   spbill_create_ip:   String,
   attach:             String,
-  payed:              {type: Boolean, default: false},  // 支付成功
+  detail:             String,
+  payed:              {type: Boolean, default: false},  // 支付状态
   sendAt:             { type: Date, default: Date.now },
   _index:             { type: Number, default: 0, index: true }
 })
