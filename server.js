@@ -1,6 +1,7 @@
 const Koa = require('koa')
 
 const bodyParser = require('koa-bodyparser')
+const xmlParser = require('koa-xml-body')
 
 const app = new Koa()
 
@@ -12,6 +13,9 @@ const serve = require('koa-static')
 
 
 app.use(serve('./src'))
+
+// xml解析中间价
+app.use(xmlParser())
 
 // 使用ctx.body解析中间件
 app.use(bodyParser({

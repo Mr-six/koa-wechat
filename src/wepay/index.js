@@ -36,17 +36,19 @@ async function create (ctx) {
 
   // TODO 对 body 进行对象验证
   const { error, value } = $.joi.validate(body, schema.order)  // 验证body对象
-  console.log(error)
+  // console.log(error)
   if (error) return ctx.body = 'params error'
-
-  // 订单数据库写入
-  orderApi.payCreate(body)
 
   try {    
     let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
     resO.out_trade_no = body.out_trade_no  // 填写单号
     ctx.body = resO
+    
+    if (resO.xml.return_code === 'SUCCESS' ) {
+      // 订单数据库写入
+      orderApi.payCreate(body)
+    }
 
   } catch (e) {
     console.dir(e)
@@ -118,9 +120,54 @@ async function findOne (ctx) {
   }
 }
 
+
+/**
+ * 微信订单回调
+ * TODO 添加token验证
+ * @param {koa} ctx 
+ */
+async function weCallBack (ctx) {
+  let body = ctx.request.body
+  // console.dir(body)
+  let { xml } = body
+  if (xml.return_code[0] === 'SUCCESS') {
+
+    let transaction_id = xml.transaction_id[0]  // 微信订单id
+    let out_trade_no = xml.out_trade_no[0]  // 商户订单id
+    let res = xml.result_code[0]  // 支付结果
+
+
+    if (res === 'SUCCESS') {  // 支付成功
+      let query = {
+        out_trade_no
+      }
+      let info = {
+        transaction_id,
+        payed: true,
+      }
+      try {
+        let updata = await orderApi.payUpdata(query, info)
+        if (updata.ok) {
+          let xmlO = {
+            return_code: 'SUCCESS'
+          }
+          xmlO = $.j2x(xmlO, { header: false })
+          xmlO = '<xml>' + xmlO + '<\/xml>'
+          ctx.body = xmlO
+        }
+        
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    
+  }  
+}
+
 module.exports = {
   create,
   findOne,
   test,
   testFind,
+  weCallBack,
 }

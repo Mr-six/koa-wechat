@@ -58,6 +58,15 @@ orderAPI.methods.payCreate = async function (data) {
   }
 }
 
+orderAPI.methods.payUpdata = async function (query, data) {
+  try {
+    let result = await orderModel.update(query, data)
+    return result
+  } catch (e) {
+    console.log('出错：'　+ e)
+  }
+}
+
 orderAPI.methods.payfind = async function (query) {
   try {
     let res = await orderModel.payfind(query)

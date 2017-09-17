@@ -23,6 +23,7 @@ wepay.get('/test', methods.test)  // 微信支付测试
  * device_info 设备编号　最多　２0 位字符串
  * total_fee　商品价格　单位　分
  * body　商品名称
+ * trade_type: 'NATIVE', // 支付类型
  * detail　商品详情　(可省略)
  * attach：备注信息（可省略）
  */
@@ -41,6 +42,12 @@ wepay.get('/orderlist', methods.testFind)   // 订单列表查询
  * 返回结果 trade_state 为　NOTPAY　或者　SUCCESS
  */
 wepay.get('/findone', methods.findOne)      // 单个订单状态查询
+
+/**
+ * 微信回调函数
+ * 
+ */
+wepay.post('/wecallback',methods.weCallBack)
 
 
 module.exports = wepay
