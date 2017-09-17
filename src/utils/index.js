@@ -17,7 +17,7 @@ const moment     = require('moment')        // 时间格式和
 
 module.exports = {
   re: re,
-  x2j: xml2json,
+  x2j: xml2json.toJson,
   j2x: json2xml,
   joi,
   // sha1加密
@@ -81,10 +81,11 @@ module.exports = {
   // 微信支付签名
   signWe (data) {
     let sig = module.exports.raw(data)
-    sig += '&key' + we.key
-    sig = module.exports.md5(sig)
+    sig += '&key=' + we.key
+    console.log(sig)
+    sig = module.exports.md5(sig).toUpperCase()
     data.sign = sig
-    return data
+    return sig
   },
 
   // 时间格式化

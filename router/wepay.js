@@ -6,10 +6,7 @@ wepay.get('/', (ctx) => {
   ctx.body = 'wepay index!'
 })
 
-wepay.get('/test', (ctx) => {
-  let query = ctx.query
-  ctx.body = 'test qurey' + query.test
-})
+wepay.get('/test', methods.test)  // 微信支付测试
 
 // api
 wepay.post('/create', methods.create)  // 订单创建

@@ -1,5 +1,6 @@
 // const https = require('https')
 
+
 const axios = require('axios')
 
 const { we } = require('../../config')
@@ -30,13 +31,19 @@ class WeixinPayment {
 
   req(url, params) {
     const { appid, mch_id } = this.$opts
+   
     Object.assign(params, {
-      appid,
-      mch_id,
-      nonce_str: $.createNonceStr(),
+      
     })
-    params.sign = this.sign(params)
-    const body = $.j2x(params, { header: false })
+
+    console.dir(params)
+    params.sign = $.signWe(params)
+
+    console.log('签名： ' + params.sign)
+
+    let body = $.j2x(params, { header: false })
+    body = '<xml>' + body + '<\/xml>'
+    console.dir(body)
     return this.$req
       .post(url, body)
       .then(ret => $.x2j(ret.data))

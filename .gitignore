@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
 npm-debug.log
+config/we.js
 *.log
 yarn.log

@@ -3,6 +3,7 @@ const { we, schema} = require('../../config')
 const $ = require('../utils')
 const Payment = require('./payment')
 
+
 const pay = new Payment({
   appid: we.appid,
   mch_id: we.mch_id,
@@ -17,8 +18,37 @@ async function create (ctx) {
 
   // TODO 对 body 进行对象验证
   const { error, value } = $.joi.validate(body, schema.order)  // 验证body对象
-  $.debug(error)
+  console.log(error)
   if (error) return ctx.body = 'params error'
+  try {
+    let res = await pay.createOrder(body)  // 调用接口创建订单
+    console.dir(res)
+    ctx.body = res
+  } catch (e) {
+    console.dir(e)
+    ctx.body = e
+  }
+}
+
+/**
+ * 订单创建函数
+ * @param {koa} ctx 
+ */
+async function test (ctx) {
+  let body = {
+    appid: we.appid,
+    mch_id: we.mch_id,
+    nonce_str: $.createNonceStr(),
+    device_info: 'test1111',
+    body: '蝉鸣视觉测试',
+    out_trade_no: '12123111',
+    total_fee: 1,
+    spbill_create_ip: '192.168.0.1',
+    attach: '售货地点',
+    notify_url: 'http://sunny.mrsix.top/',
+    trade_type: 'NATIVE',
+  }
+  // console.dir($.x2j)
   try {
     let res = await pay.createOrder(body)  // 调用接口创建订单
     console.dir(res)
@@ -51,4 +81,5 @@ async function findOne (ctx) {
 module.exports = {
   create,
   findOne,
+  test,
 }
