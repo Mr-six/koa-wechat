@@ -69,7 +69,7 @@ async function test (ctx) {
     spbill_create_ip: '192.168.0.1',　// ip
     attach: '售货地点',  // 附件信息
     detail: '蝉鸣视觉荣誉出品',  // 商品描述
-    notify_url: 'http://sunny.mrsix.top/',　// 回调地址
+    notify_url: we.notify_url,　// 回调地址
     trade_type: 'NATIVE', // 支付类型
   }
   // 订单数据库写入
@@ -130,14 +130,31 @@ async function weCallBack (ctx) {
   let body = ctx.request.body
   // console.dir(body)
   let { xml } = body
-  if (xml.return_code[0] === 'SUCCESS') {
 
-    let transaction_id = xml.transaction_id[0]  // 微信订单id
-    let out_trade_no = xml.out_trade_no[0]  // 商户订单id
-    let res = xml.result_code[0]  // 支付结果
+  if (xml.return_code === 'SUCCESS') {
 
+    let {
+      transaction_id,   // 微信订单id
+      out_trade_no,     // 商户订单id
+      result_code,              // 支付结果
+      sign,
+    } = xml
 
-    if (res === 'SUCCESS') {  // 支付成功
+    let mysign = $.signWe(xml)
+
+    if (mysign !== sign) {  // 签名验证失败
+      console.log('签名验证失败')
+
+      let xmlO = {
+        return_code: 'FAIL',
+        return_msg: '签名失败'
+      }
+      xmlO = $.j2x(xmlO, { header: false })
+      xmlO = '<xml>' + xmlO + '<\/xml>'
+      ctx.body = xmlO
+    }
+
+    if (result_code === 'SUCCESS') {  // 支付成功
       let query = {
         out_trade_no
       }
@@ -149,7 +166,8 @@ async function weCallBack (ctx) {
         let updata = await orderApi.payUpdata(query, info)
         if (updata.ok) {
           let xmlO = {
-            return_code: 'SUCCESS'
+            return_code: 'SUCCESS',
+            return_msg: 'OK'
           }
           xmlO = $.j2x(xmlO, { header: false })
           xmlO = '<xml>' + xmlO + '<\/xml>'

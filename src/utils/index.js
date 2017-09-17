@@ -57,8 +57,8 @@ module.exports = {
     var keys = Object.keys(args)
     keys = keys.sort()
     var newArgs = {}
-    keys.forEach(function (key) {  // 键值不为空
-      if (args[key] !== '') newArgs[key.toLowerCase()] = args[key]
+    keys.forEach(function (key) {  // 键值不为空 且不等于sign
+      if (args[key] !== '' && key !== 'sign') newArgs[key.toLowerCase()] = args[key]
     })
 
     var string = ''

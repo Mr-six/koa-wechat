@@ -15,7 +15,11 @@ const serve = require('koa-static')
 app.use(serve('./src'))
 
 // xml解析中间价
-app.use(xmlParser())
+app.use(xmlParser({
+  xmlOptions: {
+    explicitArray: false
+  }
+}))
 
 // 使用ctx.body解析中间件
 app.use(bodyParser({
