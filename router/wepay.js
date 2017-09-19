@@ -15,6 +15,7 @@ wepay.get('/', (ctx) => {
 })
 
 wepay.get('/test', methods.test)  // 微信支付测试
+wepay.get('/scancode', methods.qr)  // 微信支付测试
 
 
 /**
@@ -44,10 +45,17 @@ wepay.get('/orderlist', methods.testFind)   // 订单列表查询
 wepay.get('/findone', methods.findOne)      // 单个订单状态查询
 
 /**
- * 微信回调函数
+ * 微信支付回调函数
  * 
  */
 wepay.post('/wecallback',methods.weCallBack)
+
+// 生成商品固定二维码
+wepay.get('/scancode', methods.qr)
+
+// 微信扫码回调
+wepay.post('/wescancall', methods.weScancall)
+wepay.get('/wescancall', methods.weScancall)
 
 
 module.exports = wepay

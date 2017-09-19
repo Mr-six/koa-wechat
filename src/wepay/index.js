@@ -4,6 +4,9 @@ const $ = require('../utils')
 const Payment = require('./payment')
 const { orderApi } = require('../db')
 
+const qr = require('./qr') // 生成商品二维码
+
+
 const pay = new Payment({
   appid: we.appid,
   mch_id: we.mch_id,
@@ -34,7 +37,7 @@ async function create (ctx) {
     notify_url: we.notify_url,
   })
 
-  // TODO 对 body 进行对象验证
+  // 对 body 进行对象验证
   const { error, value } = $.joi.validate(body, schema.order)  // 验证body对象
   // console.log(error)
   if (error) return ctx.body = 'params error'
@@ -47,6 +50,7 @@ async function create (ctx) {
     
     if (resO.xml.return_code === 'SUCCESS' ) {
       // 订单数据库写入
+      body.qrcode = resO.xml.code_url
       orderApi.payCreate(body)
     }
 
@@ -88,6 +92,7 @@ async function test (ctx) {
 }
 
 
+
 // 订单查询
 async function testFind (ctx) {
   let query = ctx.query
@@ -123,7 +128,6 @@ async function findOne (ctx) {
 
 /**
  * 微信订单回调
- * TODO 添加token验证
  * @param {koa} ctx 
  */
 async function weCallBack (ctx) {
@@ -182,10 +186,45 @@ async function weCallBack (ctx) {
   }  
 }
 
+/**
+ * 微信扫码回调地址
+ * @param {koa} ctx 
+ */
+async function weScancall (ctx) {
+  let body = ctx.request.body
+  let query = ctx.query 
+  if (!body.xml) return ctx.body = {body,query}
+  let { xml } = body
+
+  // let {
+  //   transaction_id,   // 微信订单id
+  //   out_trade_no,     // 商户订单id
+  //   result_code,     // 支付结果
+  //   sign,
+  // } = xml
+  
+  let mysign = $.signWe(xml)
+  if (mysign !== sign) {  // 签名验证失败
+    console.log('签名验证失败')
+
+    let xmlO = {
+      return_code: 'FAIL',
+      return_msg: '签名失败'
+    }
+    xmlO = $.j2x(xmlO, { header: false })
+    xmlO = '<xml>' + xmlO + '<\/xml>'
+    ctx.body = xmlO
+  }
+
+
+}
+
 module.exports = {
   create,
   findOne,
   test,
   testFind,
   weCallBack,
+  weScancall,
+  qr, // 固定二维码生成
 }
