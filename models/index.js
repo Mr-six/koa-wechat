@@ -3,7 +3,7 @@ const config   = require('../config')
 const $        = require('../src/utils')
 const v1       = require('./v1')
 
-const dbname = config.isDev ? config.dbtest : config.db
+const dbname = config.isProd ? config.db : config.dbtest
 
 
 module.exports =  {

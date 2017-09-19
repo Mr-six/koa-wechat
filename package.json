@@ -6,6 +6,7 @@
   "author": "mrsix <582497915@qq.com>",
   "scripts": {
     "start": "NODE_ENV=develop nodemon server.js",
+    "nodb": "NODE_ENV=noDb node server.js",
     "prd": "NODE_ENV=porduct node server.js"
   },
   "license": "MIT",

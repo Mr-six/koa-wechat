@@ -1,5 +1,5 @@
 // 创建订单接口
-const { we, schema} = require('../../config')
+const { we, schema, noDb} = require('../../config')
 const $ = require('../utils')
 const Payment = require('./payment')
 const { orderApi } = require('../db')
@@ -48,7 +48,7 @@ async function create (ctx) {
     resO.out_trade_no = body.out_trade_no  // 填写单号
     ctx.body = resO
     
-    if (resO.xml.return_code === 'SUCCESS' ) {
+    if (resO.xml.return_code === 'SUCCESS' && !config.useDb) {  // 使用数据库
       // 订单数据库写入
       body.qrcode = resO.xml.code_url
       orderApi.payCreate(body)
@@ -77,7 +77,9 @@ async function test (ctx) {
     trade_type: 'NATIVE', // 支付类型
   }
   // 订单数据库写入
-  orderApi.payCreate(body)
+  if (!config.useDb) {
+    orderApi.payCreate(body)
+  }
 
   try {
     let res = await pay.createOrder(body)  // 调用接口创建订单
@@ -97,6 +99,9 @@ async function test (ctx) {
 async function testFind (ctx) {
   let query = ctx.query
   
+  if (noDb) {
+    return ctx.body = 'this is no database mode'
+  }
   try {
     let res = await orderApi.payfind(query)
     ctx.body = res
@@ -167,8 +172,9 @@ async function weCallBack (ctx) {
         payed: true,
       }
       try {
-        let updata = await orderApi.payUpdata(query, info)
-        if (updata.ok) {
+        if (!noDb) let updata = await orderApi.payUpdata(query, info)
+        
+        if (noDb || updata.ok) {
           let xmlO = {
             return_code: 'SUCCESS',
             return_msg: 'OK'
@@ -194,14 +200,14 @@ async function weScancall (ctx) {
   let body = ctx.request.body
   let query = ctx.query 
   if (!body.xml) return ctx.body = {body,query}
+
   let { xml } = body
 
-  // let {
-  //   transaction_id,   // 微信订单id
-  //   out_trade_no,     // 商户订单id
-  //   result_code,     // 支付结果
-  //   sign,
-  // } = xml
+  let {
+    product_id,     // 商品id
+    openid,         // 用户openid
+    sign,           // 签名
+  } = xml
   
   let mysign = $.signWe(xml)
   if (mysign !== sign) {  // 签名验证失败
@@ -215,6 +221,9 @@ async function weScancall (ctx) {
     xmlO = '<xml>' + xmlO + '<\/xml>'
     ctx.body = xmlO
   }
+
+  // 执行下单
+  
 
 
 }

@@ -35,7 +35,10 @@ app.use(bodyParser({
 
 app.use(router.routes())
 
-require('./models').connect()  // 数据库链接
+if (!config.useDb) {  // 是否使用数据库
+  require('./models').connect()  // 数据库链接
+}
+
 
 app.listen(config.port, () => {
   console.log('server start at http://localhost:' + config.port)
