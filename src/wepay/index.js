@@ -213,7 +213,7 @@ async function weScancall (ctx) {
   }
 
   // 执行下单
-  body = createO(xml, ctx)  // 下单数据
+  body =  createO(xml, ctx)  // 下单数据
   body.body = we.productid[xml.product_id].body  // 商品名称
   body.total_fee = we.productid[xml.product_id].price  // 商品价格
   body.trade_type = 'NATIVE'  // 交易类型
@@ -226,9 +226,9 @@ async function weScancall (ctx) {
     resO.out_trade_no = body.out_trade_no  // 填写单号
     console.log('返回结果')
     console.dir(res)
-
-    ctx.body = $.j2x(res)  // 微信模式一扫码支付 回调后返回数据
     
+    ctx.body = $.j2x(res)  // 微信模式一扫码支付 回调后返回数据
+    console.log($.j2x(res))
     if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
       // 订单数据库写入
       body.qrcode = resO.xml.code_url
