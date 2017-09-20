@@ -19,3 +19,5 @@ async function createO (body) {
   })
   return body
 }
+
+module.exports = createO
