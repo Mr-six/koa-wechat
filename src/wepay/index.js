@@ -227,8 +227,10 @@ async function weScancall (ctx) {
     console.log('返回结果')
     console.dir(res)
     
-    ctx.body = $.j2x(res)  // 微信模式一扫码支付 回调后返回数据
-    console.log($.j2x(res))
+    let resXml = $.j2x(res.xml, { header: false })
+    resXml = '<xml>' + resXml + '<\/xml>'
+    ctx.body = resXml  // 微信模式一扫码支付 回调后返回数据
+    console.log(resXml)
     if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
       // 订单数据库写入
       body.qrcode = resO.xml.code_url
