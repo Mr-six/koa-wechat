@@ -1,7 +1,7 @@
 const { we } = require('../../config')
 const $ = require('../utils')
 
-async function createO (body, ctx) {
+function createO (body, ctx) {
   // ip　判断
   let regip = /(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}/
   let ip = ctx.request.ip
