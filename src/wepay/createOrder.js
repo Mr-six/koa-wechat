@@ -1,7 +1,7 @@
 async function createO (body) {
   // ip　判断
   let regip = /(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}/
-  let ip = ctx.request.ip
+  let ip = body.request.ip
   if (ip.match(regip)) {
     ip = ip.match(regip)[0]
   } else {
