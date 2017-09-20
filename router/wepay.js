@@ -14,6 +14,7 @@ wepay.get('/', (ctx) => {
   ctx.body = 'wepay index! ip:' + ip
 })
 
+
 wepay.get('/test', methods.test)  // 微信支付测试
 wepay.get('/scancode', methods.qr)  // 微信支付测试
 

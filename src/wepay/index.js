@@ -148,6 +148,7 @@ async function weCallBack (ctx) {
       }
       xmlO = $.j2x(xmlO, { header: false })
       xmlO = '<xml>' + xmlO + '<\/xml>'
+      ctx.type = 'xml'
       ctx.body = xmlO
     }
 
@@ -171,6 +172,7 @@ async function weCallBack (ctx) {
           }
           xmlO = $.j2x(xmlO, { header: false })
           xmlO = '<xml>' + xmlO + '<\/xml>'
+          ctx.type = 'xml'
           ctx.body = xmlO
         }
         
@@ -209,6 +211,7 @@ async function weScancall (ctx) {
     }
     xmlO = $.j2x(xmlO, { header: false })
     xmlO = '<xml>' + xmlO + '<\/xml>'
+    ctx.type = 'xml'
     ctx.body = xmlO
   }
 
@@ -223,14 +226,20 @@ async function weScancall (ctx) {
     console.dir(body)
     let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
-    resO.out_trade_no = body.out_trade_no  // 填写单号
-    console.log('返回结果')
-    console.dir(res)
-    
-    let resXml = $.j2x(res.xml, { header: false })
+
+    let resXml = $.j2x(resO.xml, { header: false })
     resXml = '<xml>' + resXml + '<\/xml>'
+    console.log('返回数据')
+    console.dir(resXml)
+    
+    ctx.type = 'xml'
     ctx.body = resXml  // 微信模式一扫码支付 回调后返回数据
-    console.log(resXml)
+
+    resO.out_trade_no = body.out_trade_no  // 填写单号
+   
+    
+    
+    // console.log(resXml)
     if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
       // 订单数据库写入
       body.qrcode = resO.xml.code_url

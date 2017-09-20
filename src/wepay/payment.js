@@ -51,7 +51,7 @@ class WeixinPayment {
     
     return this.$req
       .post(url, body)
-      .then(ret => JSON.parse($.x2j(ret.data)))
+      .then(ret => $.x2j(ret.data))
   }
 
   createOrder(params = {}) {
