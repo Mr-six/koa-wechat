@@ -23,7 +23,7 @@ const pay = new Payment({
 async function create (ctx) {
   let body = ctx.request.body
   
-  body = createO(body)
+  body = createO(body, ctx)
 
   // 对 body 进行对象验证
   const { error, value } = $.joi.validate(body, schema.order)  // 验证body对象
@@ -219,12 +219,12 @@ async function weScancall (ctx) {
   body.trade_type = 'NATIVE'  // 交易类型
 
   try {  // 下单
-    let res = await pay.createOrder(body)  // 调用接口创建订单
+    let res = await pay.createOrder(body, ctx)  // 调用接口创建订单
     let resO = JSON.parse(res)
     resO.out_trade_no = body.out_trade_no  // 填写单号
 
     console.dir(res)
-    
+
     ctx.body = $.j2x(res)  // 微信模式一扫码支付 回调后返回数据
     
     if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
