@@ -219,10 +219,12 @@ async function weScancall (ctx) {
   body.trade_type = 'NATIVE'  // 交易类型
 
   try {  // 下单
+    console.log('开始下单')
+    console.dir(body)
     let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
     resO.out_trade_no = body.out_trade_no  // 填写单号
-
+    console.log('返回结果')
     console.dir(res)
 
     ctx.body = $.j2x(res)  // 微信模式一扫码支付 回调后返回数据
