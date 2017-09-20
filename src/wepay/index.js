@@ -213,13 +213,13 @@ async function weScancall (ctx) {
   }
 
   // 执行下单
-  body = createO(xml)  // 下单数据
+  body = createO(xml, ctx)  // 下单数据
   body.body = we.productid[xml.product_id].body  // 商品名称
   body.total_fee = we.productid[xml.product_id].price  // 商品价格
   body.trade_type = 'NATIVE'  // 交易类型
 
   try {  // 下单
-    let res = await pay.createOrder(body, ctx)  // 调用接口创建订单
+    let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
     resO.out_trade_no = body.out_trade_no  // 填写单号
 
