@@ -3,6 +3,7 @@ const { we, schema, noDb} = require('../../config')
 const $ = require('../utils')
 const Payment = require('./payment')
 const { orderApi } = require('../db')
+const createO = require('./createOrder')  // 创建订单基础数据
 
 const qr = require('./qr') // 生成商品二维码
 
@@ -21,21 +22,8 @@ const pay = new Payment({
  */
 async function create (ctx) {
   let body = ctx.request.body
-
-  // ip　判断
-  let regip = /(25[0-5]|2[0-4]\d|[0-1]?\d?\d)(\.(25[0-5]|2[0-4]\d|[0-1]?\d?\d)){3}/
-  let ip = ctx.request.ip
-  if (ip.match(regip)) {
-    ip = ip.match(regip)[0]
-  } else {
-    ip = '192.168.0.1'
-  }
-
-  Object.assign(body, {
-    out_trade_no: body.device_info +　'-' + $.createTimestamp(), // 订单号
-    spbill_create_ip: ip,
-    notify_url: we.notify_url,
-  })
+  
+  body = createO(body)
 
   // 对 body 进行对象验证
   const { error, value } = $.joi.validate(body, schema.order)  // 验证body对象
@@ -225,10 +213,30 @@ async function weScancall (ctx) {
   }
 
   // 执行下单
-  
-  
+  body = createO(xml)  // 下单数据
+  body.body = we.productid[xml.product_id].body  // 商品名称
+  body.total_fee = we.productid[xml.product_id].price  // 商品价格
+  body.trade_type = 'NATIVE'  // 交易类型
 
+  try {  // 下单
+    let res = await pay.createOrder(body)  // 调用接口创建订单
+    let resO = JSON.parse(res)
+    resO.out_trade_no = body.out_trade_no  // 填写单号
 
+    console.dir(res)
+    
+    ctx.body = $.j2x(res)  // 微信模式一扫码支付 回调后返回数据
+    
+    if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
+      // 订单数据库写入
+      body.qrcode = resO.xml.code_url
+      orderApi.payCreate(body)
+    }
+
+  } catch (e) {
+    console.dir(e)
+    ctx.body = e
+  }
 }
 
 module.exports = {
