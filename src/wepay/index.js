@@ -200,11 +200,11 @@ async function weCallBack (ctx) {
  */
 async function weScancall (ctx) {
   let body = ctx.request.body
+  console.dir(body)
   let query = ctx.query 
   if (!body.xml) return ctx.body = {body,query}
-
+  
   let { xml } = body
-
   let {
     product_id,     // 商品id
     openid,         // 用户openid
