@@ -35,7 +35,7 @@ app.use(bodyParser({
 
 app.use(router.routes())
 
-if (!config.useDb) {  // 是否使用数据库
+if (!config.noDb) {  // 是否使用数据库
   require('./models').connect()  // 数据库链接
 }
 

@@ -172,7 +172,9 @@ async function weCallBack (ctx) {
         payed: true,
       }
       try {
-        if (!noDb) let updata = await orderApi.payUpdata(query, info)
+        if (!noDb) {
+          let updata = await orderApi.payUpdata(query, info)
+        }
         
         if (noDb || updata.ok) {
           let xmlO = {
