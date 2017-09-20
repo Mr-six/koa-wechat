@@ -48,7 +48,7 @@ async function create (ctx) {
     resO.out_trade_no = body.out_trade_no  // 填写单号
     ctx.body = resO
     
-    if (resO.xml.return_code === 'SUCCESS' && !config.useDb) {  // 使用数据库
+    if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
       // 订单数据库写入
       body.qrcode = resO.xml.code_url
       orderApi.payCreate(body)
@@ -77,7 +77,7 @@ async function test (ctx) {
     trade_type: 'NATIVE', // 支付类型
   }
   // 订单数据库写入
-  if (!config.useDb) {
+  if (!noDb) {
     orderApi.payCreate(body)
   }
 
@@ -225,6 +225,7 @@ async function weScancall (ctx) {
   }
 
   // 执行下单
+  
   
 
 
