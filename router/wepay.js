@@ -16,13 +16,13 @@ wepay.get('/', (ctx) => {
 
 
 wepay.get('/test', methods.test)  // 微信支付测试
-wepay.get('/scancode', methods.qr)  // 微信支付测试
+// wepay.get('/scancode', methods.qr)  // 微信支付测试
 
 
 /**
  * 订单创建
  * post 参数
- * device_info 设备编号　最多　２0 位字符串
+ * device_info 设备编号　最多　20 位字符串
  * total_fee　商品价格　单位　分
  * body　商品名称
  * trade_type: 'NATIVE', // 支付类型
@@ -30,6 +30,13 @@ wepay.get('/scancode', methods.qr)  // 微信支付测试
  * attach：备注信息（可省略）
  */
 wepay.post('/create', methods.create)       // 订单创建
+
+
+/**
+ * 生成商品固定二维码
+ * product_id: 商品id
+ */
+wepay.get('/scancode', methods.qr)
 
 
 /**
@@ -51,12 +58,9 @@ wepay.get('/findone', methods.findOne)      // 单个订单状态查询
  */
 wepay.post('/wecallback',methods.weCallBack)
 
-// 生成商品固定二维码
-wepay.get('/scancode', methods.qr)
 
 // 微信扫码回调
 wepay.post('/wescancall', methods.weScancall)
-wepay.get('/wescancall', methods.weScancall)
 
 
 module.exports = wepay

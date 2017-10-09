@@ -5,9 +5,9 @@
   "main": "index.js",
   "author": "mrsix <582497915@qq.com>",
   "scripts": {
-    "start": "NODE_ENV=develop nodemon server.js",
+    "start": "NODE_ENV=development nodemon server.js",
     "nodb": "NODE_ENV=noDb node server.js",
-    "prd": "NODE_ENV=porduct node server.js"
+    "prod": "NODE_ENV=porduction node server.js"
   },
   "license": "MIT",
   "dependencies": {

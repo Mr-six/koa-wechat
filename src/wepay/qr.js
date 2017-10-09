@@ -26,7 +26,6 @@ function qr (ctx) {
   let url = we.qr_url + querystring.stringify(signData)  // 返回扫码url
 
   ctx.body = url
-
 }
 
 module.exports = qr

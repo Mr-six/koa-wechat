@@ -1,29 +1,39 @@
-// 微信扫码支付
-  ### 模式一 优先生成二维码
+## 扫码支付
+### 模式一 优先生成二维码(固定二维码模式)
+模式一不适合多设备的情况：
+参数只有product_id可选，对于多台设备，和多商品，在价格和设备编号判断上存在不便。
 
-  // 二维码中的内容为链接，形式为：
-  // weixin：//wxpay/bizpayurl?sign=XXXXX&appid=XXXXX&mch_id=XXXXX&product_id=XXXXXX&time_stamp=XXXXXX&nonce_str=XXXXX
 
-  // 公众账号ID	appid	String(32)	是	wx8888888888888888	微信分配的公众账号ID
-  // 商户号	mch_id	String(32)	是	1900000109	微信支付分配的商户号
-  // 时间戳	time_stamp	String(10)	是	1414488825	系统当前时间，定义规则详见时间戳
-  // 随机字符串	nonce_str	String(32)	是	5K8264ILTKCH16CQ2502SI8ZNMTM67VS	随机字符串，不长于32位。推荐随机数生成算法
-  // 商品ID	product_id	String(32)	是	88888	商户定义的商品id 或者订单号
-  // 签名	sign	String(32)	是	C380BEC2BFD727A4B6845133519F3AD6	签名，详见签名生成算法
+### 模式二 动态生成二维码
+适合有屏幕的设备根据商品动态生成二维码 有效期为两个小时 不适合做固定支付
 
-  // weixin：//wxpay/bizpayurl?appid=wx2421b1c4370ec43b&mch_id=10000100&nonce_str=f6808210402125e30663234f94c87a8c&product_id=1&time_stamp=1415949957&sign=512F68131DD251DA4A45DA79CC7EFE9D
+## h5 支付
+由页面动态生成二维码，操作灵活。
+方便接入其他支付方式
 
-  业务流程
-  1, 根据不同商品 生成 商品id product_id (可用于统计) 结合时间戳 等生成签名 最后组合生成二维码
-  2, 用户扫码后 微信支付系统 回调 用请求将带productid和用户的openid等参数 并要求商户系统返回交数据包 
-  3, 商户后台系统收到微信支付系统的回调请求，根据productid生成商户系统的订单
-  4, 商户系统调用微信支付【统一下单API】请求下单，获取交易会话标识（prepay_id）  
-  5, 商户后台系统将prepay_id返回给微信支付系统  ---- 此步骤生成订单数据库
-  6, 接口接受 响应回调 并更改 数据库订单结果
 
-  ### 模式二 动态生成二维码
+### 接口 post /wepay/create
+微信统一下单：
+```
+/**
+ * post 参数
+ * device_info 设备编号　最多　20 位字符串
+ * total_fee　商品价格　单位　分
+ * body　商品名称
+ * trade_type: 'NATIVE', // 扫码支付类型 h5支付:MWEB 
+ * detail　商品详情　(可省略)
+ * attach：备注信息（可省略）
+ */
+```
 
-  直接调用统一下单接口实现
-  
-  <!-- 创建订单参数 -->  https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1
-  
+### 订单支付状态查询 get /wepay/findone 
+/**
+ * get 参数　out_trade_no　或者　transaction_id　二选一
+ * 返回结果 trade_state 为　NOTPAY　或者　SUCCESS
+ */
+
+### 订单列表查询 get /wepay/orderlist
+/**
+ * get 参数　{query 对象　根据订单参数进行筛选}
+ * 如 设备编号 价格 商品名词等 为空则查看全部
+ */
