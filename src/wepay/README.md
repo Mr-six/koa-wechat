@@ -16,7 +16,6 @@
 微信统一下单：
 ```
 /**
- * post 参数
  * device_info 设备编号　最多　20 位字符串
  * total_fee　商品价格　单位　分
  * body　商品名称
@@ -27,13 +26,16 @@
 ```
 
 ### 订单支付状态查询 get /wepay/findone 
+```
 /**
  * get 参数　out_trade_no　或者　transaction_id　二选一
  * 返回结果 trade_state 为　NOTPAY　或者　SUCCESS
  */
-
+```
 ### 订单列表查询 get /wepay/orderlist
+```
 /**
  * get 参数　{query 对象　根据订单参数进行筛选}
  * 如 设备编号 价格 商品名词等 为空则查看全部
  */
+ ```

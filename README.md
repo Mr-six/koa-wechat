@@ -32,6 +32,9 @@ get /wx/getJsConfig  参数：<br>
 由页面动态生成二维码，操作灵活。
 方便接入其他支付方式
 
+## 微信小程序
+适合应用开发，需要开发自己的支付充值，也可简单支付，但只限于微信
+
 
 ### 接口 post /wepay/create
 微信统一下单：
@@ -48,13 +51,42 @@ get /wx/getJsConfig  参数：<br>
 ```
 
 ### 订单支付状态查询 get /wepay/findone 
+```
 /**
  * get 参数　out_trade_no　或者　transaction_id　二选一
  * 返回结果 trade_state 为　NOTPAY　或者　SUCCESS
  */
-
+```
 ### 订单列表查询 get /wepay/orderlist
+```
 /**
  * get 参数　{query 对象　根据订单参数进行筛选}
  * 如 设备编号 价格 商品名词等 为空则查看全部
  */
+ ```
+### 商品创建 post /wepay/creatProd
+```
+/**
+ * post 参数　{body 对象　根据订单参数进行筛选}
+ * device_info:    设备名称或者商品名称 编号
+ * title:          商品标题
+ * subtitle:       商品副标题
+ * pic:            商品图片
+ * price:          单价
+ */
+```
+
+### 根据商品id查找 get /wepay/findProductByid
+```
+/**
+ * get 参数　{query 对象}
+ * id     商品id
+ */
+```
+
+### 按类查询商品 get /wepay/findProduct
+/**
+ * get 参数　{query 对象}
+ * title     商品名称 或者 device_info 二选一, 优先使用 title
+ */
+```

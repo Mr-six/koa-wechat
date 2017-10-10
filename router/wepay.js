@@ -1,5 +1,6 @@
 const Router = require('koa-router')
 const wepay = new Router()
+const { orderApi, productApi} = require('../src/db')
 const methods = require('../src/wepay')
 
 // 测试页面
@@ -51,6 +52,12 @@ wepay.get('/orderlist', methods.testFind)   // 订单列表查询
  * 返回结果 trade_state 为　NOTPAY　或者　SUCCESS
  */
 wepay.get('/findone', methods.findOne)      // 单个订单状态查询
+
+wepay.post('/creatProd', productApi.create)  // 创建商品
+
+wepay.get('/findProduct', productApi.all)  // 商品查询findById
+
+wepay.get('/findProductByid', productApi.findById)  // 根据id查询单个商品
 
 /**
  * 微信支付回调函数

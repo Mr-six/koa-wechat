@@ -2,7 +2,7 @@
 const { we, schema, noDb} = require('../../config')
 const $ = require('../utils')
 const Payment = require('./payment')
-const { orderApi } = require('../db')
+const { orderApi, productApi} = require('../db')
 const createO = require('./createOrder')  // 创建订单基础数据
 
 const qr = require('./qr') // 生成商品二维码
@@ -251,6 +251,7 @@ async function weScancall (ctx) {
     ctx.body = e
   }
 }
+
 
 module.exports = {
   create,
