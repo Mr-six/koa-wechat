@@ -36,7 +36,9 @@
       padding: 16px;
     }
     .layui-col-md12 img {
-        padding: 15px;
+        padding: 15px 0;
+        width: 100%;
+        height: auto;
     }
 
   </style>
@@ -63,7 +65,7 @@
             <input type="text" value="1" name="title" required  lay-verify="required" placeholder="请输入数量" autocomplete="off" class="layui-input">
         </div>
         </div>
-        <button class="layui-btn">提交</button>
+        <button class="layui-btn">微信支付</button>
 
         
       
@@ -108,8 +110,17 @@
         type: "GET",
         url: 'http://wepay.mrsix.top/wepay/findProductByid',
         data: {id: id},
-        success: function (res) {
-          console.dir(e)
+        success: function (data) {
+          var title       = data.data.title
+              subtitle    = data.data.subtitle
+              price       = Number(data.data.price)/100
+              pic         = data.data.pic
+              device_info = data.data.device_info
+          // 页面页面填充
+          $('#title').text(title)
+          $('#subtitle').text(subtitle)
+          $('#price').text(price)
+          $('#pic').attr('src', subtitle)
         },
         err: function (e) {
           console.log(e)
