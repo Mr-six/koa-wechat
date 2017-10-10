@@ -13,6 +13,7 @@ const schema = require('./schema')     // 对象验证
 
 module.exports = {
   isProd,
+  cors: {origin: '*'},                      // 允许跨域
   noDb,
   db: 'mongodb://127.0.0.1:27017/koams',    // 数据库
   dbtest: 'mongodb://127.0.0.1:27017/test', // 测试数据库

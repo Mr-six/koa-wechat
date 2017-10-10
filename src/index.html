@@ -46,19 +46,19 @@
     
 
     <div class="layui-row">
-      <!-- <h3 class="h3">微信原生h5付款demo演示</h3> -->
       
       <div class="layui-form-item">
 
         <div>
-            <h3 class="h3">标题</h3>
-            <p>副标题</p>
+            <h3 class="h3" id="title">标题</h3>
+            <p id="subtitle">副标题</p>
 
         <div class="layui-col-md12 pic">
-            <img src="http://img-qncdn2.meilijia.com/photos/2ec2d06ceb71a9cabd71dd271fae2aa7_s730.jpg" alt="纸巾图片">
+            <img id="prodimg" src="http://img-qncdn2.meilijia.com/photos/2ec2d06ceb71a9cabd71dd271fae2aa7_s730.jpg" alt="纸巾图片">
         </div>
+        <p style="text-align: left; padding: 15px;">单价：<span id="price">0.1</span>￥</p>
         </div>
-        <label class="layui-form-label">购买数量</label>
+        <label style="text-align: left;" class="layui-form-label">购买数量</label>
         <div class="layui-input-block">
             <input type="text" value="1" name="title" required  lay-verify="required" placeholder="请输入数量" autocomplete="off" class="layui-input">
         </div>
@@ -72,7 +72,8 @@
        
       </div>
 
-      <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+      <div style="display: none">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
           <legend>服务端返回结果</legend>
         </fieldset>
         <pre class="layui-code" lay-title="JavaScript" lay-skin="notepad" id="res" style="text-align: left">
@@ -80,43 +81,42 @@
             jdi: 'test'
           }
         </pre>
+      </div>
             
   </div>
     
   <script>
-    window.channel = ''
-    
-    $('.mybtn').on('click', function (e) {
-      let el = $(this)
-      if ($(e.target).hasClass('layui-btn-danger')) {  // 清空当前订单
-        el.find('.qrcode').html('') // 清空二维码
-        el.find('.btn-re, .btn-list').toggleClass('hide')  // 按钮转换
+    function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
 
-      } else if ($(e.target).hasClass('layui-btn')) { // 生新订单
+      for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=')
 
-        let data = handleClick(e, el)  // 订单数据
-      
-        create(el, data)  // 生成订单
+          if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? '' : sParameterName[1];
+          }
       }
-      
-    })
-
-    // 点击处理函数
-    function handleClick (e, el) {
-      var data = el.data()　　// 获取post数据
-      let target = $(e.target)　　 // 获取点击对象
-
-      data.channel = target.data('channel')  // 支付方式添加
-      window.channel = data.channel  // 添加全局对象
-      
-      if (target.hasClass('wechat')) {　　// 微信判断
-        data.extra = {
-          product_id: target.data('product_id')
-        }
-      }
-      return data
     }
-
+    +function () {
+      var id = getUrlParameter('id')
+      console.log(id)
+      if (!id) return false
+      $.ajax({
+        type: "GET",
+        url: 'http://wepay.mrsix.top/wepay/findProductByid',
+        data: {id: id},
+        success: function (res) {
+          console.dir(e)
+        },
+        err: function (e) {
+          console.log(e)
+        },
+        dataType: 'json',
+      })
+    }()
     // 订单生成函数
     function create (el, data) {
       // 打开加载层
@@ -143,35 +143,7 @@
         dataType: 'json',
       })
     }
-    
-    // 订单成功函数
-    function su_post (res, el) {
 
-      layer.closeAll('msg')  // 关闭加载层
-      // el.find('button').removeClass('layui-btn-disabled')  //　可点
-
-      $('#res').html(JSON.stringify(res))  // 填充服务器返回数据
-
-      let target = el.find('.qrcode')
-      
-      let btn = el.find('btn-list　button')  //　获取按钮组
-      let url = res.credential[window.channel]
-
-      console.log(url)
-
-      crQrCode(target, url)  // 生成二维码
-    }
-
-    // 二维码生成函数
-    // target 为添加　二维码　位置
-    // url 扫码地址
-    function crQrCode (target, url) {
-      $(target).qrcode({
-        width: 150,
-        height: 150,
-        text: url,
-      })
-    }
 
 
 

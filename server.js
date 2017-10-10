@@ -2,6 +2,7 @@ const Koa = require('koa')
 
 const bodyParser = require('koa-bodyparser')
 const xmlParser = require('koa-xml-body')
+const cors      = require('koa-cors')
 
 const app = new Koa()
 
@@ -11,6 +12,7 @@ const router = require('./router')
 
 const serve = require('koa-static')
 
+app.use(cors(config.cors))
 
 app.use(serve('./src'))
 
