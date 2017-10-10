@@ -85,8 +85,24 @@ get /wx/getJsConfig  参数：<br>
 ```
 
 ### 按类查询商品 get /wepay/findProduct
+```
 /**
  * get 参数　{query 对象}
  * title     商品名称 或者 device_info 二选一, 优先使用 title
+ */
+```
+
+### 更新商品信息 post /wepay/updateProd/:id
+```
+/**
+ * id 为目标的id
+ * 修改信息参数 参考创建时所使用的参数
+ */
+```
+
+### 删除商品信息 post /wepay/deleteProd/:id
+```
+/**
+ * id 为目标的id
  */
 ```

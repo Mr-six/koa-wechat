@@ -53,11 +53,17 @@ wepay.get('/orderlist', methods.testFind)   // 订单列表查询
  */
 wepay.get('/findone', methods.findOne)      // 单个订单状态查询
 
+
+// 商品接口
 wepay.post('/creatProd', productApi.create)  // 创建商品
 
 wepay.get('/findProduct', productApi.all)  // 商品查询findById
 
 wepay.get('/findProductByid', productApi.findById)  // 根据id查询单个商品
+
+wepay.post('/deleteProd/:id', productApi.delete)  // 删除商品
+
+wepay.post('/updateProd/:id', productApi.update)  // 更新商品信息
 
 /**
  * 微信支付回调函数

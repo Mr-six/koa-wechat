@@ -32,7 +32,7 @@ function addMethods(_this) {
        $.result(ctx, 'this is test account')
        return
     }
-    let documents = await _this.model.update({ "_id": ctx.params.id }, req.body)
+    let documents = await _this.model.update({ "_id": ctx.params.id }, ctx.request.body)
     if (documents === -1) $.result(ctx, 'update failed')
     else $.result(ctx, documents)
   }
