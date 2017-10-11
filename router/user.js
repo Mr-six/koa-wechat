@@ -1,11 +1,22 @@
-const Router = require('koa-router')
-const user = new Router()
+const Router      = require('koa-router')
+const {authToken} = require('../src/utils/auth')
+const {userApi}   = require('../src/db')
+const user        = new Router()
 
-user.get('/', (ctx) => {
-  ctx.body = 'user index!'
-})
-user.get('/:id', (ctx) => {
-  ctx.body = 'user id = ' + ctx.params.id
-})
+/**
+ * 登录逻辑
+ */
+user.post('/login', userApi.login)
+
+/**
+ * 注册逻辑
+ */
+user.post('/signup', userApi.create)
+
+/**
+ * 重置密码
+ */
+user.post('/resetPassword', userApi.resetPassword)
+
 
 module.exports = user

@@ -95,6 +95,13 @@ module.exports =  class Base {
       console.error(e)
     }
   }
+  async findOneAndUpdate (query, info) {
+    try {
+      return await this.model.findOneAndUpdate(query, { $set: info }, {new: true})
+    } catch (e) {
+      $.error(e)
+    }
+  }
 
   async delete(query) {
     try {
@@ -147,6 +154,11 @@ function addMethods (_this) {
     const item = await _this.find(query)
     if (!item) { return -1 }
     return await _this.delete(item)
+  }
+  methods.findOneAndUpdate = async function (query, info) {
+    const item = await _this.find(query)
+    if (!item) { return -1 }
+    return await _this.findOneAndUpdate(query, info)
   }
 
   return methods
