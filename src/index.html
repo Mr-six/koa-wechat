@@ -141,7 +141,8 @@
         total_fee: Number(price) * 100,
         body: title,
         trade_type: 'MWEB',
-        detail: subtitle
+        detail: subtitle,
+        notify_url: BASE_URL + '/wepay/wescancall/'
       }
 
       layer.msg('订单生成中', {
