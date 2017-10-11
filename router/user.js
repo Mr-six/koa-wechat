@@ -16,7 +16,7 @@ user.post('/signup', userApi.create)
 /**
  * 重置密码
  */
-user.post('/resetPassword', userApi.resetPassword)
+user.post('/resetPassword', authToken, userApi.resetPassword)
 
 
 module.exports = user

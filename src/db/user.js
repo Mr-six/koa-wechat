@@ -113,7 +113,7 @@ userApi.methods.resetPassword = async function (ctx, next) {
   let {password, newpassword} = body
   let userData = {password, newpassword}
   const { error, value } = $.joi.validate(userData, schema.user)
-  if (ctx.user.password !== password) return $.result(ctx, 'Incorrect password!')
+  // if (ctx.user.password !== password) return $.result(ctx, 'Incorrect password!')
   if (value.password === value.newpassword) return $.result(ctx, 'same password!')
 
   let documents = await userModel.update({ _id: ctx.user._id }, { password: value.newpassword })
