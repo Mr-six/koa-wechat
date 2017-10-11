@@ -18,7 +18,7 @@ function createO (body, ctx) {
 
   Object.assign(body, extra, {
     spbill_create_ip: ip,
-    notify_url: we.notify_url,
+    notify_url: body.notify_url || we.notify_url,
   })
   return body
 }
