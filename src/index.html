@@ -65,7 +65,7 @@
             <input type="text" value="1" name="title" required  lay-verify="required" placeholder="请输入数量" autocomplete="off" class="layui-input">
         </div>
         </div>
-        <button class="layui-btn">微信支付</button>
+        <button class="layui-btn" id="my_create">微信支付</button>
 
         
       
@@ -88,6 +88,9 @@
   </div>
     
   <script>
+    var title, subtitle, price, pic, device_info
+    var LO = window.location.host
+    var BASE_URL = 'http://' + LO
     function getUrlParameter(sParam) {
       var sPageURL = decodeURIComponent(window.location.search.substring(1)),
           sURLVariables = sPageURL.split('&'),
@@ -102,20 +105,20 @@
           }
       }
     }
+    // 获取商品信息
     +function () {
       var id = getUrlParameter('id')
-      console.log(id)
       if (!id) return false
       $.ajax({
         type: "GET",
-        url: 'http://wepay.mrsix.top/wepay/findProductByid',
+        url: BASE_URL + '/wepay/findProductByid',
         data: {id: id},
         success: function (data) {
-          var title       = data.data.title
-              subtitle    = data.data.subtitle
-              price       = Number(data.data.price)/100
-              pic         = data.data.pic
-              device_info = data.data.device_info
+          title       = data.data.title
+          subtitle    = data.data.subtitle
+          price       = Number(data.data.price)/100
+          pic         = data.data.pic
+          device_info = data.data.device_info
           // 页面页面填充
           $('#title').text(title)
           $('#subtitle').text(subtitle)
@@ -128,25 +131,36 @@
         dataType: 'json',
       })
     }()
+    
     // 订单生成函数
-    function create (el, data) {
+    function create (el) {
       // 打开加载层
       // layer.load(1, {time: 4*1000,shade:0.6}) 
-      
+      var data = {
+        device_info: device_info,
+        total_fee: Number(price) * 100,
+        body: title,
+        trade_type: 'MWEB',
+        detail: subtitle
+      }
+
       layer.msg('订单生成中', {
         icon: 16
         ,shade: 0.6
       })
+
 
       el.find('.btn-list').addClass('hide')  // 禁用点击
       el.find('.btn-re').removeClass('hide') // 显示重新生成
 
       $.ajax({
         type: "POST",
-        url: '/ping/charge',
+        url: BASE_URL + '/wepay/create',
         data: data,
         success: function (res) {
-          su_post (res, el)
+          console.log(res.xml.mweb_url)
+          var targetU = res.xml.mweb_url
+          window.open(targetU)
         },
         err: function (e) {
           console.log(e)
@@ -154,6 +168,12 @@
         dataType: 'json',
       })
     }
+
+    $('#my_create').on('click', function () {
+      console.log('click')
+      create($(this))
+    })
+
 
 
 
