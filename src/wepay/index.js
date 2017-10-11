@@ -222,15 +222,16 @@ async function weScancall (ctx) {
   // 执行下单
   body =  createO(xml, ctx)  // 下单数据
   let data = await productModel.findById(xml.product_id)
-  console.log('查询结果')
-  console.dir(data)
+  // console.log('查询结果')
+  // console.dir(data)
   body.body = data.title  // 商品名称
   body.total_fee = data.price  // 商品价格
+  body.detail = data.subtitle  // 商品简介
   body.trade_type = 'NATIVE'  // 交易类型
 
   try {  // 下单
-    console.log('开始下单')
-    console.dir(body)
+    // console.log('开始下单')
+    // console.dir(body)
     let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
 
