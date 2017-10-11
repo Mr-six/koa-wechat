@@ -162,6 +162,7 @@
         success: function (res) {
           console.log(res.xml.mweb_url)
           var targetU = res.xml.mweb_url
+          console.log(targetU)
           window.location.href = targetU
         },
         err: function (e) {

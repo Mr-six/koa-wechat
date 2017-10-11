@@ -24,9 +24,11 @@ async function create (ctx) {
   let body = ctx.request.body
   
   body = createO(body, ctx)
+  console.log('这里显示ip')
+  console.dir(body)
   // 对 body 进行对象验证
   const { error, value } = $.joi.validate(body, schema.order)  // 验证body对象
-  // console.log(error)
+  console.log(error)
   if (error) return ctx.body = 'params error'
 
   try {    
