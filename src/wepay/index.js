@@ -3,6 +3,7 @@ const { we, schema, noDb} = require('../../config')
 const $ = require('../utils')
 const Payment = require('./payment')
 const { orderApi, productApi} = require('../db')
+const {productModel} = require('../../models').v1
 const createO = require('./createOrder')  // 创建订单基础数据
 
 const qr = require('./qr') // 生成商品二维码
@@ -220,8 +221,11 @@ async function weScancall (ctx) {
 
   // 执行下单
   body =  createO(xml, ctx)  // 下单数据
-  body.body = we.productid[xml.product_id].body  // 商品名称
-  body.total_fee = we.productid[xml.product_id].price  // 商品价格
+  let data = await productModel.findById(xml.product_id)
+  console.log('查询结果')
+  console.dir(data)
+  body.body = data.title  // 商品名称
+  body.total_fee = data.price  // 商品价格
   body.trade_type = 'NATIVE'  // 交易类型
 
   try {  // 下单

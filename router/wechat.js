@@ -5,7 +5,9 @@ const wecheck = require('../src/wx/wecheck')  // 微信服务器检测
 
 const wechat = new Router()
 
-let {appid, appsecret, err} = config  // 微信公众号 appid 和 appsecret 错误代码 err
+let {err} = config  // 微信公众号 appid 和 appsecret 错误代码 err
+let {appid, appsecret} = config.we
+
 const api = new WechatAPI(appid, appsecret)  // 主要 api
 
 wechat.get('/', (ctx) => {  // 主页
