@@ -3,7 +3,7 @@
  * 端口
  * 文件目录等
  */
-const isProd   =  process.env.NODE_ENV === 'porduction'  // 是否为
+const isProd   =  process.env.NODE_ENV === 'production'  // 是否为
 const noDb   =  process.env.NODE_ENV === 'noDb'  // 是否使用数据库
 const err    = require('./err')        // 错误代码
 const qf     = require('./qf')         // 钱方
