@@ -24,8 +24,7 @@ async function create (ctx) {
   let body = ctx.request.body
   
   body = createO(body, ctx)
-  console.log('这里显示ip')
-  console.dir(body)
+  
   // 对 body 进行对象验证
   const { error, value } = $.joi.validate(body, schema.order)  // 验证body对象
   console.log(error)
@@ -35,6 +34,9 @@ async function create (ctx) {
     let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
     resO.out_trade_no = body.out_trade_no  // 填写单号
+
+    console.log('这里显示输出')
+    console.dir(resO)
     ctx.body = resO
     
     if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
