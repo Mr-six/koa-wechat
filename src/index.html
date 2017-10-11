@@ -60,7 +60,7 @@
         </div>
         <p style="text-align: left; padding: 15px;">单价：<span id="price">0.1</span>￥</p>
         </div>
-        <label style="text-align: left;" class="layui-form-label">购买数量</label>
+        <label style="text-align: left;" class="layui-form-label" id="prodCount">购买数量</label>
         <div class="layui-input-block">
             <input type="text" value="1" name="title" required  lay-verify="required" placeholder="请输入数量" autocomplete="off" class="layui-input">
         </div>
@@ -108,6 +108,7 @@
     // 获取商品信息
     +function () {
       var id = getUrlParameter('id')
+      let prodCount = $('#prodCount').val()
       if (!id) return false
       $.ajax({
         type: "GET",
@@ -116,7 +117,7 @@
         success: function (data) {
           title       = data.data.title
           subtitle    = data.data.subtitle
-          price       = Number(data.data.price)/100
+          price       = Number(data.data.price)/100 * prodCount
           pic         = data.data.pic
           device_info = data.data.device_info
           // 页面页面填充
@@ -161,7 +162,7 @@
         success: function (res) {
           console.log(res.xml.mweb_url)
           var targetU = res.xml.mweb_url
-          window.open(targetU)
+          window.location.href = targetU
         },
         err: function (e) {
           console.log(e)
