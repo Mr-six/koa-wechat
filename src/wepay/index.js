@@ -236,8 +236,8 @@ async function weScancall (ctx) {
   body.trade_type = 'NATIVE'  // 交易类型
 
   try {  // 下单
-    // console.log('开始下单')
-    // console.dir(body)
+    console.log('开始下单')
+    console.dir(body)
     let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
 
