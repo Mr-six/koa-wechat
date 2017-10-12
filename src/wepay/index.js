@@ -227,6 +227,7 @@ async function weScancall (ctx) {
   body.body = data.title  // 商品名称
   body.total_fee = data.price  // 商品价格
   body.detail = data.subtitle  // 商品简介
+  body.device_info = data.device_info  // 设备编号
   body.trade_type = 'NATIVE'  // 交易类型
 
   try {  // 下单
