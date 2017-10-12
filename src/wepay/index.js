@@ -28,7 +28,7 @@ async function create (ctx) {
   
   // 对 body 进行对象验证
   const { error, value } = $.joi.validate(body, schema.order)  // 验证body对象
-  console.log(error)
+  // console.log(error)
   if (error) return ctx.body = 'params error'
 
   try {    
@@ -36,8 +36,8 @@ async function create (ctx) {
     let resO = JSON.parse(res)
     resO.out_trade_no = body.out_trade_no  // 填写单号
 
-    console.log('这里显示输出')
-    console.dir(resO)
+    // console.log('这里显示输出')
+    // console.dir(resO)
     ctx.body = resO
     
     if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
@@ -141,8 +141,8 @@ async function weCallBack (ctx) {
       sign,
     } = xml
 
-    console.log('微信支付结果1')
-    console.log(xml)
+    // console.log('微信支付结果1')
+    // console.log(xml)
 
     let mysign = $.signWe(xml)
 
@@ -171,8 +171,8 @@ async function weCallBack (ctx) {
 
       try {
         let updata = await orderApi.payUpdata(query, info)
-        console.log('微信支付结果')    
-        console.log(xml)
+        // console.log('微信支付结果')    
+        // console.log(xml)
         
         let xmlO = {
           return_code: 'SUCCESS',
@@ -182,8 +182,8 @@ async function weCallBack (ctx) {
         xmlO = '<xml>' + xmlO + '<\/xml>'
         ctx.type = 'xml'
         ctx.body = xmlO
-        console.log('回复支付结果')    
-        console.log(xmlO)
+        // console.log('回复支付结果')    
+        // console.log(xmlO)
         
       } catch (e) {
         console.log(e)
@@ -199,7 +199,7 @@ async function weCallBack (ctx) {
  */
 async function weScancall (ctx) {
   let body = ctx.request.body
-  console.dir(body)
+  // console.dir(body)
   let query = ctx.query 
   if (!body.xml) return ctx.body = {body,query}
   
@@ -236,8 +236,8 @@ async function weScancall (ctx) {
   body.trade_type = 'NATIVE'  // 交易类型
 
   try {  // 下单
-    console.log('开始下单')
-    console.dir(body)
+    // console.log('开始下单')
+    // console.dir(body)
     let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
 
