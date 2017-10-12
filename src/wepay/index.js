@@ -141,8 +141,6 @@ async function weCallBack (ctx) {
       sign,
     } = xml
 
-    console.log('微信支付结果')    
-    console.log(xml)
 
     let mysign = $.signWe(xml)
 
@@ -168,20 +166,20 @@ async function weCallBack (ctx) {
         payed: true,
       }
       try {
-        if (!noDb) {
-          let updata = await orderApi.payUpdata(query, info)
-        }
+        let updata = await orderApi.payUpdata(query, info)
+        console.log('微信支付结果')    
+        console.log(xml)
         
-        if (noDb || updata.ok) {
-          let xmlO = {
-            return_code: 'SUCCESS',
-            return_msg: 'OK'
-          }
-          xmlO = $.j2x(xmlO, { header: false })
-          xmlO = '<xml>' + xmlO + '<\/xml>'
-          ctx.type = 'xml'
-          ctx.body = xmlO
+        let xmlO = {
+          return_code: 'SUCCESS',
+          return_msg: 'OK'
         }
+        xmlO = $.j2x(xmlO, { header: false })
+        xmlO = '<xml>' + xmlO + '<\/xml>'
+        ctx.type = 'xml'
+        ctx.body = xmlO
+        console.log('回复支付结果')    
+        console.log(xmlO)
         
       } catch (e) {
         console.log(e)
@@ -241,8 +239,6 @@ async function weScancall (ctx) {
 
     let resXml = $.j2x(resO.xml, { header: false })
     resXml = '<xml>' + resXml + '<\/xml>'
-    console.log('返回数据')
-    console.dir(resXml)
     
     ctx.type = 'xml'
     ctx.body = resXml  // 微信模式一扫码支付 回调后返回数据
