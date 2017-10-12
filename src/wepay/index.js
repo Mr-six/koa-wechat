@@ -141,6 +141,8 @@ async function weCallBack (ctx) {
       sign,
     } = xml
 
+    console.log('微信支付结果1')
+    console.log(xml)
 
     let mysign = $.signWe(xml)
 
@@ -165,8 +167,7 @@ async function weCallBack (ctx) {
         transaction_id,
         payed: true,
       }
-      console.log('微信支付结果1')
-      console.log(info)
+      
 
       try {
         let updata = await orderApi.payUpdata(query, info)
