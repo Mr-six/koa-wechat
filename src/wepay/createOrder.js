@@ -12,7 +12,7 @@ function createO (body, ctx) {
   }
 
   let extra = body.product_id ?
-  {out_trade_no: body.product_id}
+  {out_trade_no: body.product_id.substring(0, 3) +　'-' + $.createTimestamp()}
   :
   {out_trade_no: body.device_info +　'-' + $.createTimestamp()} 
 
