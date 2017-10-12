@@ -154,7 +154,7 @@ async function weCallBack (ctx) {
       xmlO = $.j2x(xmlO, { header: false })
       xmlO = '<xml>' + xmlO + '<\/xml>'
       ctx.type = 'xml'
-      ctx.body = xmlO
+      return ctx.body = xmlO
     }
 
     if (result_code === 'SUCCESS') {  // 支付成功
@@ -165,6 +165,9 @@ async function weCallBack (ctx) {
         transaction_id,
         payed: true,
       }
+      console.log('微信支付结果1')
+      console.log(info)
+
       try {
         let updata = await orderApi.payUpdata(query, info)
         console.log('微信支付结果')    
