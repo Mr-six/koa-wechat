@@ -141,6 +141,9 @@ async function weCallBack (ctx) {
       sign,
     } = xml
 
+    console.log('微信支付结果')    
+    console.log(xml)
+
     let mysign = $.signWe(xml)
 
     if (mysign !== sign) {  // 签名验证失败
