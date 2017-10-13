@@ -1,6 +1,6 @@
 .DS_Store
 node_modules/
-src/iclean/
+static/iclean/
 npm-debug.log
 config/we.js
 static/index*.html
