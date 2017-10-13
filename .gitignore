@@ -3,6 +3,6 @@ node_modules/
 src/iclean/
 npm-debug.log
 config/we.js
-src/*.html
+static/index*.html
 *.log
 yarn.log
