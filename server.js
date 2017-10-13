@@ -14,7 +14,7 @@ const serve = require('koa-static')
 
 app.use(cors(config.cors))
 
-app.use(serve('./src'))
+app.use(serve('./static'))
 
 // xml解析中间价
 app.use(xmlParser({
