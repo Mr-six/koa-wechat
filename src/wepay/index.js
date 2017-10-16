@@ -306,7 +306,7 @@ async function weappCreateOrder (ctx) {
     
 
     console.log('签名数据')
-    console.dir($.signWe(weappParams))
+    console.dir(weappParams)
 
     ctx.body = weappParams  // 返回小程序支付所需数据
     // let resXml = $.j2x(resO.xml, { header: false })
