@@ -31,7 +31,7 @@ class WeixinPayment {
 
   req(url, params) {
     const { appid, mch_id } = this.$opts
-   
+    if (params.appid) appid = params.appid  // 传入appid (微信小程序)
     Object.assign(params, {
       appid,
       mch_id,

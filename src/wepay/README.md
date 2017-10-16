@@ -20,6 +20,7 @@
  * total_fee　商品价格　单位　分
  * body　商品名称
  * trade_type: 'NATIVE', // 扫码支付类型 h5支付:MWEB 
+ * notify_url: 回调通知地址 (可省略) 后端已配置
  * detail　商品详情　(可省略)
  * attach：备注信息（可省略）
  */

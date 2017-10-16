@@ -13,9 +13,9 @@ const order  =        $.joi.object().keys({
   out_trade_no:       $.joi.string().min(3).max(32).required(),           // 商户订单
   total_fee:          $.joi.number().integer().required(),                // 标价金额 单位为分
   spbill_create_ip:   $.joi.string().ip({version: ['ipv4']}).required(),  // ip
-  notify_url:         $.joi.string().min(3).max(256).required(),         // 通知地址
+  notify_url:         $.joi.string().min(3).max(256).required(),          // 通知地址
   trade_type:         $.joi.string().min(3).max(16).required(),           // 交易类型
-
+  openid:              $.joi.string().min(3).max(32),                     // 微信用户的openid
   detail:             $.joi.string().min(3).max(6000),                    // 商品详情
   attach:             $.joi.string().min(3).max(127),                     // 附加数据
 })

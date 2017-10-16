@@ -9,6 +9,7 @@ const order = new Base('order', {
   spbill_create_ip:   String,
   attach:             String,
   detail:             String,
+  openid:             String,
   qrcode:             String,
   transaction_id:     {type: String, default: ''},  // 微信端订单id
   payed:              {type: Boolean, default: false},  // 支付状态

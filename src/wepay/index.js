@@ -264,6 +264,68 @@ async function weScancall (ctx) {
   }
 }
 
+// 小程序下单
+async function weappCreateOrder (ctx) {
+  let body = ctx.request.body
+  if (!body.product_id) return ctx.body = {body}
+  let product_id = body.product_id
+  console.log('product_id' + product_id)
+  
+  // 执行统一下单
+  let data = await productModel.findById(product_id)
+  console.log('小程序订单查询结果')
+  console.dir(data)
+  body.body = data.title  // 商品名称
+  body.total_fee = data.price  // 商品价格
+  body.detail = data.subtitle  // 商品简介
+  body.device_info = data.device_info  // 设备编号
+  body.trade_type = 'JSAPI'  // 交易类型 小程序
+  body.appid = we.appid_app  // 小程序id
+
+  try {  // 下单
+    console.log('开始小程序下单')
+    console.dir(body)
+    let res = await pay.createOrder(body)  // 调用接口创建订单
+    let resO = JSON.parse(res)
+    console.log('小程序下单返回结果')
+    console.dir(resO)
+
+   
+    // 调用再次签名 https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3
+    let weappParams = {
+      appId: we.appid_app,
+      timeStamp: $.createTimestamp(),
+      nonce_str: $.createNonceStr(),
+      package: resO.xml.package,
+      signType: 'MD5'
+    }
+    weappParams.paySign = $.signWe(weappParams)  // 进行签名
+
+    console.log('签名数据')
+    console.dir(weappParams)
+
+    ctx.body = weappParams  // 返回小程序支付所需数据
+    // let resXml = $.j2x(resO.xml, { header: false })
+    // resXml = '<xml>' + resXml + '<\/xml>'
+    
+    // ctx.type = 'xml'
+    // ctx.body = resXml  // 微信模式一扫码支付 回调后返回数据
+
+    // resO.out_trade_no = body.out_trade_no  // 填写单号
+    
+    // console.log(resXml)
+    if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
+      // 订单数据库写入
+      body.qrcode = resO.xml.code_url
+      orderApi.payCreate(body)
+    }
+
+  } catch (e) {
+    console.dir(e)
+    ctx.body = e
+  }
+}
+
 
 module.exports = {
   create,
@@ -273,4 +335,5 @@ module.exports = {
   weCallBack,
   weScancall,
   qr, // 固定二维码生成
+  weappCreateOrder, // 小程序下单
 }

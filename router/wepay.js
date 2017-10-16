@@ -75,5 +75,7 @@ wepay.post('/wecallback',methods.weCallBack)
 // 微信扫码回调
 wepay.post('/wescancall', methods.weScancall)
 
+wepay.post('/weappCreateOrder', methods.weappCreateOrder)
+
 
 module.exports = wepay
