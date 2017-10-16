@@ -299,7 +299,7 @@ async function weappCreateOrder (ctx) {
       appId: we.appid_app,
       timeStamp: $.createTimestamp(),
       nonce_str: $.createNonceStr(),
-      package: resO.xml.package,
+      package: 'prepay_id=' + resO.xml.prepay_id,
       signType: 'MD5'
     }
     weappParams.paySign = $.signWe(weappParams, false)  // 进行签名
@@ -319,6 +319,7 @@ async function weappCreateOrder (ctx) {
     // console.log(resXml)
     if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
       // 订单数据库写入
+      console.log('写入订单')
       body.qrcode = resO.xml.code_url
       orderApi.payCreate(body)
     }
