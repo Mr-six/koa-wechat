@@ -302,10 +302,11 @@ async function weappCreateOrder (ctx) {
       package: 'prepay_id=' + resO.xml.prepay_id,
       signType: 'MD5'
     }
-    weappParams.paySign = $.signWe(weappParams, false)  // 进行签名
+    weappParams.paySign = $.signWe(weappParams)  // 进行签名
+    
 
     console.log('签名数据')
-    console.dir(weappParams)
+    console.dir($.signWe(weappParams))
 
     ctx.body = weappParams  // 返回小程序支付所需数据
     // let resXml = $.j2x(resO.xml, { header: false })
