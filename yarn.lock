@@ -1872,6 +1872,10 @@ resolve@~1.4.0:
   dependencies:
     path-parse "^1.0.5"
 
+restc@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/restc/-/restc-0.2.2.tgz#cbd3f65fa0bf4347b19e863165053a49a98c3429"
+
 resumer@~0.0.0:
   version "0.0.0"
   resolved "http://registry.npm.taobao.org/resumer/download/resumer-0.0.0.tgz#f1e8f461e4064ba39e82af3cdc2a8c893d076759"

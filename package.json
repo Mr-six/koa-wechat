@@ -26,6 +26,7 @@
     "mongoose": "^4.11.11",
     "nodemon": "^1.12.0",
     "pingpp": "^2.0.13",
+    "restc": "^0.2.2",
     "superagent": "^3.6.0",
     "xml2json": "^0.11.0"
   }

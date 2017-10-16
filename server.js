@@ -3,6 +3,7 @@ const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
 const xmlParser = require('koa-xml-body')
 const cors      = require('koa-cors')
+const restc = require('restc')  // api前端展示
 
 const app = new Koa()
 
@@ -15,6 +16,8 @@ const serve = require('koa-static')
 app.use(cors(config.cors))
 
 app.use(serve('./static'))
+
+app.use(restc.koa2()) // https://elemefe.github.io/restc/guide/###
 
 // xml解析中间价
 app.use(xmlParser({
