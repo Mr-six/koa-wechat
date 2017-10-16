@@ -270,6 +270,8 @@ async function weappCreateOrder (ctx) {
   if (!body.product_id) return ctx.body = {body}
   let product_id = body.product_id
   console.log('product_id' + product_id)
+
+  body =  createO(xml, ctx)  // 下单数据填充
   
   // 执行统一下单
   let data = await productModel.findById(product_id)
@@ -281,6 +283,7 @@ async function weappCreateOrder (ctx) {
   body.device_info = data.device_info  // 设备编号
   body.trade_type = 'JSAPI'  // 交易类型 小程序
   body.appid = we.appid_app  // 小程序id
+
 
   try {  // 下单
     console.log('开始小程序下单')
