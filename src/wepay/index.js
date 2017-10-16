@@ -271,7 +271,7 @@ async function weappCreateOrder (ctx) {
   let product_id = body.product_id
   console.log('product_id' + product_id)
 
-  body =  createO(xml, ctx)  // 下单数据填充
+  body =  createO(body, ctx)  // 下单数据填充
   
   // 执行统一下单
   let data = await productModel.findById(product_id)
