@@ -269,14 +269,14 @@ async function weappCreateOrder (ctx) {
   let body = ctx.request.body
   if (!body.product_id) return ctx.body = {body}
   let product_id = body.product_id
-  console.log('product_id' + product_id)
+  // console.log('product_id' + product_id)
 
   body =  createO(body, ctx)  // 下单数据填充
   
   // 执行统一下单
   let data = await productModel.findById(product_id)
-  console.log('小程序订单查询结果')
-  console.dir(data)
+  // console.log('小程序订单查询结果')
+  // console.dir(data)
   body.body = data.title  // 商品名称
   body.total_fee = data.price  // 商品价格
   body.detail = data.subtitle  // 商品简介
@@ -286,12 +286,10 @@ async function weappCreateOrder (ctx) {
 
 
   try {  // 下单
-    console.log('开始小程序下单')
-    console.dir(body)
     let res = await pay.createOrder(body)  // 调用接口创建订单
     let resO = JSON.parse(res)
-    console.log('小程序下单返回结果')
-    console.dir(resO)
+    // console.log('小程序下单返回结果')
+    // console.dir(resO)
 
    
     // 调用再次签名 https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3
@@ -302,25 +300,13 @@ async function weappCreateOrder (ctx) {
       package: 'prepay_id=' + resO.xml.prepay_id,
       signType: 'MD5'
     }
-    weappParams.paySign = $.signWe(weappParams, 'paySign')  // 进行签名
-    
-
-    console.log('签名数据')
-    console.dir(weappParams)
+    weappParams.paySign = $.signWe(weappParams)  // 进行签名
 
     ctx.body = weappParams  // 返回小程序支付所需数据
-    // let resXml = $.j2x(resO.xml, { header: false })
-    // resXml = '<xml>' + resXml + '<\/xml>'
-    
-    // ctx.type = 'xml'
-    // ctx.body = resXml  // 微信模式一扫码支付 回调后返回数据
 
-    // resO.out_trade_no = body.out_trade_no  // 填写单号
-    
-    // console.log(resXml)
     if (resO.xml.return_code === 'SUCCESS' && !noDb) {  // 使用数据库
       // 订单数据库写入
-      console.log('写入订单')
+      // console.log('写入订单')
       body.qrcode = resO.xml.code_url
       orderApi.payCreate(body)
     }
