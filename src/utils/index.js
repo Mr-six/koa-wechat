@@ -79,13 +79,18 @@ module.exports = {
   // },
   
   // 微信支付签名
-  signWe (data) {
+  signWe (data, returnObj = true) {
     let sig = module.exports.raw(data)
     sig += '&key=' + we.key
     // console.log(sig)
     sig = module.exports.md5(sig).toUpperCase()
     data.sign = sig
-    return sig
+    if (returnObj) {
+      return sig
+    } else {
+      return sig
+    }
+    
   },
 
   // 时间格式化
