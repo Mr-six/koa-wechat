@@ -82,7 +82,7 @@ module.exports = {
   signWe (data) {
     let sig = module.exports.raw(data)
     sig += '&key=' + we.key
-    // console.log(sig)
+    console.log('拼接字符串',sig)
     sig = module.exports.md5(sig).toUpperCase()
     // data.sign = sig
     return sig
