@@ -302,7 +302,7 @@ async function weappCreateOrder (ctx) {
       package: 'prepay_id=' + resO.xml.prepay_id,
       signType: 'MD5'
     }
-    weappParams.paySign = $.signWe(weappParams)  // 进行签名
+    weappParams.paySign = $.signWe(weappParams, 'paySign')  // 进行签名
     
 
     console.log('签名数据')

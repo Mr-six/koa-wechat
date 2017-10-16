@@ -79,12 +79,12 @@ module.exports = {
   // },
   
   // 微信支付签名
-  signWe (data) {
+  signWe (data, singName = sing) {
     let sig = module.exports.raw(data)
     sig += '&key=' + we.key
     console.log('拼接字符串',sig)
     sig = module.exports.md5(sig).toUpperCase()
-    // data.sign = sig
+    data[singName] = sig
     return sig
   },
 
