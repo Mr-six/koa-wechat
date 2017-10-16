@@ -296,9 +296,9 @@ async function weappCreateOrder (ctx) {
    
     // 调用再次签名 https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=7_7&index=3
     let weappParams = {
-      appid: we.appid_app,
+      appId: we.appid_app,
       timeStamp: $.createTimestamp(),
-      nonce_str: $.createNonceStr(),
+      nonceStr: $.createNonceStr(),
       package: 'prepay_id=' + resO.xml.prepay_id,
       signType: 'MD5'
     }
